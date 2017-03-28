@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using ZenithWebsite.Models;
+using ZenithWebsite.Models.ZenithModels;
 
 namespace ZenithWebsite.Data
 {
@@ -14,6 +15,9 @@ namespace ZenithWebsite.Data
             : base(options)
         {
         }
+
+        public DbSet<Event> Events { get; set; }
+        public DbSet<Activity> Activities { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
