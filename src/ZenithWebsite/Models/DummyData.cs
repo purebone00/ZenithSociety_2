@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,8 +11,69 @@ namespace ZenithWebsite.Models
 {
     public class DummyData
     {
+        public static async void SeedAdminUser(ApplicationDbContext _context)
+        {
+            var user = new ApplicationUser
+            {
+                UserName = "a@a.a",
+                Email = "a@a.a",
+                EmailConfirmed = true,
+                NormalizedEmail = "A@A.A",
+                NormalizedUserName = "A@A.A",
+                LockoutEnabled = false,
+                SecurityStamp = Guid.NewGuid().ToString()
+            };
+            var roleStore = new RoleStore<IdentityRole>(_context);
+            if (!_context.Roles.Any(r => r.Name == "Admin"))
+            {
+                await roleStore.CreateAsync(new IdentityRole { Name = "Admin", NormalizedName = "ADMIN" });
+            }
+            if (!_context.Users.Any(u => u.UserName == "a@a.a"))
+            {
+                var password = new PasswordHasher<ApplicationUser>();
+                var hashed = password.HashPassword(user, "P@$$w0rd");
+                user.PasswordHash = hashed;
+                var userStore = new UserStore<ApplicationUser>(_context);
+                await userStore.CreateAsync(user);
+                await userStore.AddToRoleAsync(user, "ADMIN");
+            }
+            await _context.SaveChangesAsync();
+        }
+
+        public static async void SeedMemberUser(ApplicationDbContext _context)
+        {
+            var user = new ApplicationUser
+            {
+                UserName = "m@m.m",
+                Email = "m@m.m",
+                EmailConfirmed = true,
+                NormalizedEmail = "M@M.M",
+                NormalizedUserName = "M@M.M",
+                LockoutEnabled = false,
+                SecurityStamp = Guid.NewGuid().ToString()
+            };
+            var roleStore = new RoleStore<IdentityRole>(_context);
+            if (!_context.Roles.Any(r => r.Name == "Member"))
+            {
+                await roleStore.CreateAsync(new IdentityRole { Name = "Member", NormalizedName = "MEMBER" });
+            }
+            if (!_context.Users.Any(u => u.UserName == "m@m.m"))
+            {
+                var password = new PasswordHasher<ApplicationUser>();
+                var hashed = password.HashPassword(user, "P@$$w0rd");
+                user.PasswordHash = hashed;
+                var userStore = new UserStore<ApplicationUser>(_context);
+                await userStore.CreateAsync(user);
+                await userStore.AddToRoleAsync(user, "MEMBER");
+            }
+            await _context.SaveChangesAsync();
+        }
+
         public static void Initialize(ApplicationDbContext db)
         {
+            SeedAdminUser(db);
+            SeedMemberUser(db);
+
             if (!db.Activities.Any())
             {
                 db.Activities.Add(new Activity
