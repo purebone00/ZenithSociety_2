@@ -151,6 +151,7 @@ namespace ZenithWebsite.Models
             {
                 db.Events.Add(new Event()
                 {
+                    EventDate = new DateTime(2017, 3, 28),
                     StartDateTime = new DateTime(2017, 03, 28, 08, 30, 00),
                     EndDateTime = new DateTime(2017, 03, 28, 10, 30, 00),
                     ActivityId = db.Activities.FirstOrDefault(f => f.ActivityDescription == "Senior's Golf Tournament").ActivityId,
@@ -161,6 +162,7 @@ namespace ZenithWebsite.Models
 
                 db.Events.Add(new Event()
                 {
+                    EventDate = new DateTime(2017, 3, 28),
                     StartDateTime = new DateTime(2017, 03, 28, 10, 30, 00),
                     EndDateTime = new DateTime(2017, 03, 28, 12, 30, 00),
                     ActivityId = db.Activities.FirstOrDefault(f => f.ActivityDescription == "Leadership General Assembly Meeting").ActivityId,
@@ -171,6 +173,7 @@ namespace ZenithWebsite.Models
 
                 db.Events.Add(new Event()
                 {
+                    EventDate = new DateTime(2017, 3, 27),
                     StartDateTime = new DateTime(2017, 03, 27, 17, 30, 00),
                     EndDateTime = new DateTime(2017, 03, 27, 19, 15, 00),
                     ActivityId = db.Activities.FirstOrDefault(f => f.ActivityDescription == "Youth Bowling Tournament").ActivityId,
@@ -181,6 +184,7 @@ namespace ZenithWebsite.Models
 
                 db.Events.Add(new Event()
                 {
+                    EventDate = new DateTime(2017, 3, 29),
                     StartDateTime = new DateTime(2017, 03, 29, 19, 00, 00),
                     EndDateTime = new DateTime(2017, 03, 29, 20, 00, 00),
                     ActivityId = db.Activities.FirstOrDefault(f => f.ActivityDescription == "Young ladies cooking lessons").ActivityId,
@@ -191,6 +195,7 @@ namespace ZenithWebsite.Models
 
                 db.Events.Add(new Event()
                 {
+                    EventDate = new DateTime(2017, 3, 30),
                     StartDateTime = new DateTime(2017, 03, 30, 08, 30, 00),
                     EndDateTime = new DateTime(2017, 03, 30, 10, 30, 00),
                     ActivityId = db.Activities.FirstOrDefault(f => f.ActivityDescription == "Youth craft lessons").ActivityId,
@@ -201,6 +206,7 @@ namespace ZenithWebsite.Models
 
                 db.Events.Add(new Event()
                 {
+                    EventDate = new DateTime(2017, 3, 30),
                     StartDateTime = new DateTime(2017, 03, 30, 10, 30, 00),
                     EndDateTime = new DateTime(2017, 03, 30, 12, 00, 00),
                     ActivityId = db.Activities.FirstOrDefault(f => f.ActivityDescription == "Youth choir practice").ActivityId,
@@ -211,6 +217,7 @@ namespace ZenithWebsite.Models
 
                 db.Events.Add(new Event()
                 {
+                    EventDate = new DateTime(2017, 3, 27),
                     StartDateTime = new DateTime(2017, 03, 27, 12, 00, 00),
                     EndDateTime = new DateTime(2017, 03, 27, 12, 30, 00),
                     ActivityId = db.Activities.FirstOrDefault(f => f.ActivityDescription == "Lunch").ActivityId,
@@ -221,6 +228,7 @@ namespace ZenithWebsite.Models
 
                 db.Events.Add(new Event()
                 {
+                    EventDate = new DateTime(2017, 3, 30),
                     StartDateTime = new DateTime(2017, 03, 30, 07, 30, 00),
                     EndDateTime = new DateTime(2017, 03, 30, 08, 30, 00),
                     ActivityId = db.Activities.FirstOrDefault(f => f.ActivityDescription == "Youth choir practice").ActivityId,

@@ -1,4 +1,4 @@
-﻿{
+{
   "userSecretsId": "aspnet-ZenithWebsite-f92d8e29-13af-460a-bce1-cad118f0252e",
 
   "dependencies": {
@@ -42,7 +42,9 @@
     "Microsoft.VisualStudio.Web.CodeGenerators.Mvc": {
       "version": "1.0.0-preview2-final",
       "type": "build"
-    }
+    },
+    "jQuery": "3.1.1",
+    "bootstrap": "3.3.7"
   },
 
   "tools": {
