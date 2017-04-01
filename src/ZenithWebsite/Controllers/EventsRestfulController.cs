@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ZenithWebsite.Data;
 using ZenithWebsite.Models.ZenithModels;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -22,9 +23,12 @@ namespace ZenithWebsite.Controllers
 
         // GET: api/values
         [HttpGet]
-        public IEnumerable<Event> Get()
+        public IActionResult Get()
         {
-            return _context.Events.ToList();
+            var EventList = from e in _context.Events
+                            join a in _context.Activities on e.ActivityId equals a.ActivityId
+                            select new { e.EventId, e.EventDate, e.StartDateTime, e.CreatedTime, e.EnteredBy, e.EndDateTime, e.ActivityId, e.IsActive, a.ActivityDescription};
+            return Json(EventList);
         }
 
         // GET api/values/5

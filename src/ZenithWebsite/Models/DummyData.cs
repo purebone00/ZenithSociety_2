@@ -71,8 +71,12 @@ namespace ZenithWebsite.Models
 
         public static void Initialize(ApplicationDbContext db)
         {
-            SeedAdminUser(db);
-            SeedMemberUser(db);
+
+            if (db.Roles.Any(r => r.Name == "Admin"))
+                SeedAdminUser(db);
+
+            if (db.Roles.Any(r => r.Name == "Member"))
+                SeedMemberUser(db);
 
             if (!db.Activities.Any())
             {

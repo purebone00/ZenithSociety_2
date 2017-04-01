@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using ZenithWebsite.Data;
 using ZenithWebsite.Models;
 using ZenithWebsite.Services;
+using AspNet.Security.OpenIdConnect.Primitives;
 
 namespace ZenithWebsite
 {
@@ -45,8 +46,10 @@ namespace ZenithWebsite
             // Add framework services.
             services.AddApplicationInsightsTelemetry(Configuration);
 
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlite(Configuration.GetConnectionString("ConnectionName")));
+            services.AddDbContext<ApplicationDbContext>(options => {
+                options.UseSqlite(Configuration.GetConnectionString("ConnectionName"));
+                options.UseOpenIddict();
+                });
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -54,6 +57,34 @@ namespace ZenithWebsite
 
             var connection = Configuration["Data:DefaultConnection:ConnectionString"];
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(connection));
+
+            // Configure Identity to use the same JWT claims as OpenIddict instead
+            // of the legacy WS-Federation claims it uses by default (ClaimTypes),
+            // which saves you from doing the mapping in your authorization controller.
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.ClaimsIdentity.UserNameClaimType = OpenIdConnectConstants.Claims.Name;
+                options.ClaimsIdentity.UserIdClaimType = OpenIdConnectConstants.Claims.Subject;
+                options.ClaimsIdentity.RoleClaimType = OpenIdConnectConstants.Claims.Role;
+            });
+
+
+            services.AddOpenIddict(options =>
+            {
+                // Register the Entity Framework stores.
+                options.AddEntityFrameworkCoreStores<ApplicationDbContext>();
+                // Register the ASP.NET Core MVC binder used by OpenIddict.
+                // Note: if you don't call this method, you won't be able to
+                // bind OpenIdConnectRequest or OpenIdConnectResponse parameters.
+                options.AddMvcBinders();
+                // Enable the token endpoint.
+                options.EnableTokenEndpoint("/connect/token");
+                // Enable the password flow.
+                options.AllowPasswordFlow();
+                // During development, you can disable the HTTPS requirement.
+                options.DisableHttpsRequirement();
+            });
+
 
             services.AddMvc();
 
@@ -88,13 +119,11 @@ namespace ZenithWebsite
             app.UseIdentity();
 
             // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
+            app.UseOAuthValidation();
+            app.UseOpenIddict();
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Account}/{action=Login}/{id?}");
-            });
+
+            app.UseMvcWithDefaultRoute();
 
             DummyData.Initialize(context);
         }

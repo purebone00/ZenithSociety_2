@@ -1,0 +1,17 @@
+<table *ngIf="events" border="1">
+  <thead>
+
+  </thead>
+  <tbody>
+    <tr *ngFor="let e of events; let i=index; ">
+        <td>{{e.EventId}}</td>
+        <td>{{e.EventDate}}</td>
+        <td>{{e.StartDateTime}}</td>
+        <td>{{e.EndDateTime}}</td>
+        <td>{{e.EnteredBy}}</td>
+        <td>{{e.CreatedTime}}</td>
+        <td>{{e.IsActive}}</td>
+        <td>{{e.ActivityDescription}}</td>
+    </tr>
+  </tbody>
+</table>
