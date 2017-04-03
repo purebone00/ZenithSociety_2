@@ -1,17 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ZenithWebsite.Data;
 using ZenithWebsite.Models.ZenithModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace ZenithWebsite.Controllers
 {
+
     [Route("api/[controller]")]
+    [Produces("application/json")]
     public class EventsRestfulController : Controller
     {
         private ApplicationDbContext _context;

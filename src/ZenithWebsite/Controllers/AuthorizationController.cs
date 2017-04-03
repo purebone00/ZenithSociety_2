@@ -23,6 +23,7 @@ using OpenIddict.Core;
 
 namespace ZenithWebsite.Controllers
 {
+
     public class AuthorizationController : Controller
     {
         private readonly IOptions<IdentityOptions> _identityOptions;
@@ -39,7 +40,7 @@ namespace ZenithWebsite.Controllers
             _userManager = userManager;
         }
 
-        [HttpPost("~/connect/token"), Produces("application/json")]
+        [HttpPost("~/connect/token"), Produces("application/json")] 
         public async Task<IActionResult> Exchange(OpenIdConnectRequest request)
         {
             Debug.Assert(request.IsTokenRequest(),

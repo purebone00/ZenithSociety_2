@@ -11,9 +11,10 @@ using Microsoft.Extensions.Logging;
 using ZenithWebsite.Models;
 using ZenithWebsite.Models.AccountViewModels;
 using ZenithWebsite.Services;
+using Microsoft.AspNetCore.Cors;
 
 namespace ZenithWebsite.Controllers
-{
+{   
     [Authorize]
     public class AccountController : Controller
     {

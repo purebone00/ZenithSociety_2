@@ -12,14 +12,4 @@ export class AppComponent {
 
   constructor(private eventService: EventModelService) {}
 
-  events: EventModel[];
-
-  getEventModels(): void {
-    this.eventService.getEventModels()
-    .then(events => this.events = events);
-  }
-
-  ngOnInit(): void {
-    this.getEventModels();
-  }
 }

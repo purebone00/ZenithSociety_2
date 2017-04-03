@@ -6,6 +6,7 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { DisplayEventsComponent } from './display-events/display-events.component';
 import { LoginComponent } from './login/login.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,17 @@ import { LoginComponent } from './login/login.component';
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    RouterModule.forRoot([
+      {
+        path: 'events',
+        component: DisplayEventsComponent
+      },
+      {
+        path: 'login',
+        component: LoginComponent
+      }
+    ])
   ],
   providers: [],
   bootstrap: [AppComponent]
