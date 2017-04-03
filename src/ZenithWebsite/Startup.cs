@@ -131,6 +131,7 @@ namespace ZenithWebsite
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
+            context.Database.Migrate();
             DummyData.Initialize(context);
         }
     }

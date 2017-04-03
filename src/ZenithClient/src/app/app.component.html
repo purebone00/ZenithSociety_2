@@ -1,6 +1,16 @@
-<nav>
-  <a routerLink="/events">Events</a><br/>
+<div class="row">
+  <h1 class="jumbotron text-center">Zenith Society</h1>
+</div>
 
-  <a routerLink="/login">Login</a>
-</nav>
-<router-outlet></router-outlet>
+<div class="container">
+  <div class="col-md-2 col-md-push-10">
+    <nav>
+      <a routerLink="/events">Events</a><br/>
+
+      <a routerLink="/login">Login</a>
+    </nav>
+  </div>
+  <div class="col-md-10 col-md-pull-2">
+    <router-outlet></router-outlet>
+  </div>
+</div>

@@ -1,18 +1,26 @@
-<h1>Dislay Events</h1>
-<table *ngIf="events" border="1">
+<h1>Display Events</h1>
+<table class="table table-centered table-striped" *ngIf="events" border="1">
   <thead>
-
+    <tr class="info">
+      <td>Activity</td>
+      <td>Event Date</td>
+      <td>Start Time</td>
+      <td>End Time</td>
+    </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let e of events; let i=index; ">
-        <td>{{e.eventId}}</td>
-        <td>{{e.eventDate}}</td>
-        <td>{{e.startDateTime}}</td>
-        <td>{{e.endDateTime}}</td>
-        <td>{{e.enteredBy}}</td>
-        <td>{{e.createdTime}}</td>
-        <td>{{e.isActive}}</td>
+    <tr *ngFor="let e of eventsToShow; let i=index;">
         <td>{{e.activityDescription}}</td>
+        <td>{{e.eventDate | date: 'EEEE, MMM d'}}</td>
+        <td>{{e.startDateTime | date: 'hh:mm a'}}</td>
+        <td>{{e.endDateTime | date: 'hh:mm a'}}</td>
     </tr>
   </tbody>
 </table>
+<button (click)="clickPreviousBtn()" [disabled]="isAuth" type="button" class="btn btn-default">
+  <span class="glyphicon glyphicon-menu-left"></span>
+</button>
+
+<button (click)="clickNextBtn()" [disabled]="isAuth" type="button" class="btn btn-default pull-right">
+  <span class="glyphicon glyphicon-menu-right"></span>
+</button>
