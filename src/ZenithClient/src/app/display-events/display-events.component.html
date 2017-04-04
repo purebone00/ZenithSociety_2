@@ -17,10 +17,10 @@
     </tr>
   </tbody>
 </table>
-<button (click)="clickPreviousBtn()" [disabled]="isAuthenticated()" type="button" class="btn btn-default">
+<button (click)="clickPreviousBtn()" *ngIf="isAuthenticated()" [disabled]="!isAuthenticated()" type="button" class="btn btn-default">
   <span class="glyphicon glyphicon-menu-left"></span>
 </button>
 
-<button (click)="clickNextBtn()" [disabled]="isAuthenticated()" type="button" class="btn btn-default pull-right">
+<button (click)="clickNextBtn()" *ngIf="isAuthenticated()" [disabled]="!isAuthenticated()" type="button" class="btn btn-default pull-right">
   <span class="glyphicon glyphicon-menu-right"></span>
 </button>

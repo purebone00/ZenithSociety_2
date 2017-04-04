@@ -13,48 +13,54 @@ export class DisplayEventsComponent implements OnInit {
   events: EventModel[];
 
   eventsToShow: EventModel[];
-  isAuth: boolean;
-  today : Date;
   startWeek : Date;
+  endWeek: Date;
 
   constructor(private eventService: EventModelService) {
     this.eventsToShow = [];
   }
 
-  getCurrentSunday() {
-    this.today = new Date();
-    return new Date(this.today.setDate(this.today.getUTCDate() - this.today.getUTCDay()-1));
+  getCurrentSunday(today: Date) {
+    this.startWeek = today;
+    return new Date(this.startWeek.setDate(this.startWeek.getDate() - this.startWeek.getDay()-1));
   }
 
-  getLastDayOfWeek() {
-    this.today = new Date();
-    return new Date(this.today.setDate(this.today.getUTCDate() - this.today.getUTCDay()+7));
+  getLastDayOfWeek(today: Date) {
+    this.endWeek = today;
+    return new Date(this.endWeek.setDate(this.endWeek.getDate() + 7));
   }
 
-  getEventModels(): void {
+  getEventModels(today: Date): void {
     this.eventService.getEventModels()
     .then(events => {
-      this.events = events
-      this.startWeek = this.getCurrentSunday()
-      this.updateCurrentEvents(this.events, this.startWeek, this.getLastDayOfWeek());
+      this.events = events.sort(function(a, b) {
+        var key1 = new Date(a.eventDate);
+        var key2 = new Date(b.eventDate);
 
+        if (key1 < key2) {
+            return -1;
+        } else if (key1 == key2) {
+            return 0;
+        } else {
+            return 1;
+        }
+      })
+      console.log(today);
+      this.updateCurrentEvents(this.events, this.getCurrentSunday(today), this.getLastDayOfWeek(today));
     });
   }
 
   ngOnInit(): void {
-    this.getEventModels();
+    this.getEventModels(new Date());
   }
 
   isAuthenticated() : boolean {
       let user = localStorage.getItem("access_token");
       if(user)
-        this.isAuth = true;
+        return true;
       else
-        this.isAuth = false;
-      return this.isAuth;
+        return false;
   }
-
-//
 
   updateCurrentEvents(events?: EventModel[], startWeek ?: Date, endWeek ?: Date) {
     let eventsThisWeek: EventModel[];
@@ -68,9 +74,13 @@ export class DisplayEventsComponent implements OnInit {
   }
 
   clickNextBtn(): void {
+    var temp1 = new Date(this.startWeek.setDate(this.startWeek.getDate() + 7));
+    this.getEventModels(temp1);
   }
 
   clickPreviousBtn(): void {
+    var temp1 = new Date(this.startWeek.setDate(this.startWeek.getDate() - 7));
+    this.getEventModels(temp1);
   }
 
 }
