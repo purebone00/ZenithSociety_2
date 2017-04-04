@@ -7,7 +7,9 @@
     <nav>
       <a routerLink="/events">Events</a><br/>
 
-      <a routerLink="/login">Login</a>
+      <a routerLink="/login" *ngIf="!isAuthenticated()">Login</a>
+
+      <a (click)="logout()" *ngIf="isAuthenticated()" href="#">Logout</a>
     </nav>
   </div>
   <div class="col-md-10 col-md-pull-2">

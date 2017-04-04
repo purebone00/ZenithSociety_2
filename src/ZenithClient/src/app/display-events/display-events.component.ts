@@ -1,7 +1,6 @@
 import { Component, OnInit ,Input } from '@angular/core';
 import { EventModel } from '../event-model';
 import { EventModelService } from '../event-model.service';
-
 @Component({
   selector: 'app-display-events',
   templateUrl: './display-events.component.html',
@@ -15,28 +14,35 @@ export class DisplayEventsComponent implements OnInit {
 
   eventsToShow: EventModel[];
   isAuth: boolean;
-  currentWeekSunday: Date;
+  today : Date;
+  startWeek : Date;
 
   constructor(private eventService: EventModelService) {
-    this.currentWeekSunday = new Date();
+    this.eventsToShow = [];
   }
 
   getCurrentSunday() {
-    var curDate = new Date();
-    while (curDate.getDay() != 1) {
-      curDate.setDate(curDate.getDate() - 1);
-    }
-    return curDate.getTime();
+    this.today = new Date();
+    return new Date(this.today.setDate(this.today.getUTCDate() - this.today.getUTCDay()-1));
+  }
+
+  getLastDayOfWeek() {
+    this.today = new Date();
+    return new Date(this.today.setDate(this.today.getUTCDate() - this.today.getUTCDay()+7));
   }
 
   getEventModels(): void {
     this.eventService.getEventModels()
-    .then(events => this.events = events);
+    .then(events => {
+      this.events = events
+      this.startWeek = this.getCurrentSunday()
+      this.updateCurrentEvents(this.events, this.startWeek, this.getLastDayOfWeek());
+
+    });
   }
 
   ngOnInit(): void {
     this.getEventModels();
-    this.currentWeekSunday.setTime(this.getCurrentSunday());
   }
 
   isAuthenticated() : boolean {
@@ -48,39 +54,23 @@ export class DisplayEventsComponent implements OnInit {
       return this.isAuth;
   }
 
-  updateCurrentEvents() {
+//
+
+  updateCurrentEvents(events?: EventModel[], startWeek ?: Date, endWeek ?: Date) {
     let eventsThisWeek: EventModel[];
     eventsThisWeek = [];
-    this.events.forEach(singleEvent => {
-      if (this.currentWeekSunday.getTime() < (new Date(singleEvent.eventDate)).getTime() &&
-              ( (new Date(singleEvent.eventDate)).getTime()) < (this.sevenDayFromNow().getTime())) {
+    events.forEach(singleEvent => {
+      if ((new Date(singleEvent.eventDate)) >= startWeek && (new Date(singleEvent.eventDate)) <= endWeek) {
         eventsThisWeek.push(singleEvent);
       }
     });
-
     this.eventsToShow = eventsThisWeek;
   }
 
-  sevenDayFromNow():Date {
-    var temp = this.currentWeekSunday;
-    temp.setDate(temp.getDate() + 7)
-    return temp;
-  }
-
-  sevenDayBeforeNow():Date {
-    var temp = this.currentWeekSunday;
-    temp.setDate(temp.getDate() - 7)
-    return temp;
-  }
-
   clickNextBtn(): void {
-    this.currentWeekSunday.setTime(this.sevenDayFromNow().getTime());
-    this.updateCurrentEvents();
   }
 
   clickPreviousBtn(): void {
-    this.currentWeekSunday.setTime(this.sevenDayBeforeNow().getTime());
-    this.updateCurrentEvents();
   }
 
 }

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { EventModel } from './event-model';
 import { Headers, Http, Response } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/map';
 
